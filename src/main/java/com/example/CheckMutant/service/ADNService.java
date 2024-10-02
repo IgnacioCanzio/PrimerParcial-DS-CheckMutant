@@ -1,10 +1,18 @@
 package com.example.CheckMutant.service;
 
+import com.example.CheckMutant.Entidades.ADN;
+import com.example.CheckMutant.Repositories.ADNRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class ADNService {
 
+    @Autowired
+    private ADNRepository adnRepo;
 
     //Metodo para formar una matriz
 
@@ -29,12 +37,16 @@ public class ADNService {
             return false; // Retornar false si el array es nulo o vacío
         }
 
-        int tamaño = strings[0].length(); // Obtener el tamaño del primer string
+        int size = strings[0].length(); // Obtener el tamaño del primer string
+
+        if (size < 4 || strings.length < 4) {
+            return false;
+        }
 
         // Recorrer el array y hacer las validaciones
         for (String str : strings) {
             // Verificar si todos los strings tienen el mismo tamaño
-            if (str.length() != tamaño) {
+            if (str.length() != size) {
                 return false; // Si algún string tiene longitud diferente, retornar false
             }
 
@@ -46,7 +58,7 @@ public class ADNService {
             }
         }
 
-        return true; // Si todo es valido, entonces retornar true
+        return true; // Si todo es valido, retorna true
     }
 
     //Metodo que verifica si el adn es mutante o no
@@ -85,11 +97,12 @@ public class ADNService {
                         contador++;
                     }
                     if (contador > 1) {
+                        guardarADN(dna,true);
                         return true;
                     }
                 }
             }
-
+            guardarADN(dna,false);
             return false; // Si no se encuentra ninguna coincidencia
 
         } else {
@@ -97,6 +110,20 @@ public class ADNService {
             return false;
         }
 
+    }
+
+    private void guardarADN(String[] dna, boolean isMutant) {
+        String adnString = Arrays.toString(dna);
+
+        Optional<ADN> adnExistente = adnRepo.findByDna(adnString);
+        if (adnExistente.isPresent()) {
+            System.out.println("El ADN ya ha sido registrado anteriormente");
+            return;
+        }
+        ADN adn = new ADN();
+        adn.setDna(adnString);
+        adn.setEsMutante(isMutant);
+        adnRepo.save(adn); //Guarda el adn en la base de datos
     }
 
 }

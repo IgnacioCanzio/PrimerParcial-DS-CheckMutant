@@ -5,10 +5,9 @@ import com.example.CheckMutant.service.ADNService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/adn")
@@ -29,6 +28,12 @@ public class ADNController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); //Retorna 403 si no es mutante
     }
 
+}
+
+@GetMapping("/stats")
+    public ResponseEntity<Map<String, Object> > obtenerEstadisticas() {
+    Map<String, Object> stats = adnService.obtenerEstadisticas();
+    return ResponseEntity.ok(stats);
 }
 
 }

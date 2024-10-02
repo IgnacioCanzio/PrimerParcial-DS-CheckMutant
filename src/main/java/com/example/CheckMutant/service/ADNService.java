@@ -5,8 +5,7 @@ import com.example.CheckMutant.Repositories.ADNRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ADNService {
@@ -125,5 +124,23 @@ public class ADNService {
         adn.setEsMutante(isMutant);
         adnRepo.save(adn); //Guarda el adn en la base de datos
     }
+
+    //Metodo para calcular y devolver las estadisticas
+
+    public Map<String, Object> obtenerEstadisticas() {
+        long countMutants = adnRepo.countMutant();
+        long countHumans = adnRepo.countHuman();
+
+        double ratio = (countHumans == 0) ? 0: (double) countMutants / countHumans; /*Si la cantidad de humanos es 0, el ratio es 0
+        si no, se calcula */
+
+        Map<String, Object> estadisticas = new HashMap<>();
+        estadisticas.put("count_mutant_dna", countMutants);
+        estadisticas.put("count_human_dna", countHumans);
+        estadisticas.put("ratio", ratio);
+        return estadisticas;
+
+    }
+
 
 }

@@ -8,6 +8,7 @@ public class CheckMutantApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CheckMutantApplication.class, args);
-	}
 
+		System.out.println("Aplicación en marcha");
+	}
 }

@@ -9,9 +9,9 @@ las cadenas corresponde a una secuencia de ADN Mutante. Si corresponde a un ADN 
 no represente una secuencia ADN por tener Strings de tamaños distintos o con caracteres inválidos, devolverá también un HTTP 403 Forbidden
 
 URL Post ADN: https://checkmutant.onrender.com/api/adn/mutant
-Body (raw)= {
-  "dna": ["ATGCGA", "CAGTAC", "ATATGC", "AGAGTG", "CGCCTA", "TCAGTV"]
-} 
+Ejemplo Body (raw)= {
+  "dna": ["ATGCCA", "CATTTC", "ATTTTG", "AGACGA", "ACGTTA", "ACACTG"]
+}
 Se recomienda usar Postman u otro programa que permita colocar un body a la petición ya que desde el navegador no será posible.
 
 La segunda petición que recibe esta api es una del tipo GET, devuelve un arreglo de datos con las estadísticas de los ADN almacenados en la base de datos
